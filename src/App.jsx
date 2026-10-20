@@ -123,6 +123,7 @@ const seedProducts = [
   },
 ];
 const money = (n) => {
+  if (n === null || n === undefined || n === "") return "Price unavailable";
   const value = Number(String(n ?? "").replace(/,/g, "").trim());
 
   if (!Number.isFinite(value)) {
