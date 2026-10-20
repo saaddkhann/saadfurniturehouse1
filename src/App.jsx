@@ -21,6 +21,7 @@ import {
   CreditCard,
   Menu,
   Package,
+  PhoneCall,
   Search,
   ShieldCheck,
   ShoppingBag,
@@ -38,7 +39,7 @@ const seedProducts = [
     id: "demo-bed",
     name: "Aarav Solid Wood Bed",
     category: "Beds",
-    price: 24999,
+    price: "free",
     oldPrice: 28999,
     material: "Solid wood",
     size: "King size",
@@ -121,12 +122,19 @@ const seedProducts = [
     stock: true,
   },
 ];
-const money = (n) =>
-  new Intl.NumberFormat("en-IN", {
+const money = (n) => {
+  const value = Number(String(n ?? "").replace(/,/g, "").trim());
+
+  if (!Number.isFinite(value)) {
+    return "Price unavailable";
+  }
+
+  return new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",
     maximumFractionDigits: 0,
-  }).format(Number(n) || 0);
+  }).format(value);
+};
 const waNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "";
 const upiId = import.meta.env.VITE_UPI_ID || "";
 const upiName = import.meta.env.VITE_UPI_NAME || "Saad Furniture House";
@@ -277,7 +285,7 @@ function App() {
       items: cart.map(({ id, name, price, qty, image }) => ({
         productId: id,
         name,
-        price: Number(price),
+        price: (price),
         qty,
         image,
       })),
@@ -379,8 +387,8 @@ function App() {
     const data = {
       ...productForm,
       name: productForm.name.trim(),
-      price: Number(productForm.price),
-      oldPrice: Number(productForm.oldPrice) || 0,
+      price: String(productForm.price ?? "").trim(),
+      oldPrice: String(productForm.oldPrice ?? "").trim() || 0,
       updatedAt: serverTimestamp(),
     };
     try {
@@ -715,36 +723,57 @@ function App() {
             }}
           />
         </section>
-        <section className="story-banner" id="about">
-          <div className="story-photo">
-            <img
-              src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85"
-              alt="Warm home interior"
-            />
-          </div>
-          <div className="story-copy">
-            <span className="eyebrow">A HOME, MADE YOURS</span>
-            <h2>
-              Good furniture.
-              <br />
-              <em>Better everyday.</em>
-            </h2>
-            <p>
-              At Saad Furniture House, we believe the right furniture makes a
-              house feel like home. Explore pieces that balance comfort,
-              function and timeless style.
-            </p>
-            <a className="btn btn-dark" href="#shop">
-              Find your next favourite <ArrowRight size={17} />
-            </a>
-          </div>
-        </section>
+       <section className="story-banner" id="about">
+  <div className="story-photo">
+    <img
+      src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85"
+      alt="Beautiful home interior"
+    />
+  </div>
+
+  <div className="story-copy">
+    <span className="eyebrow">MEET THE OWNER</span>
+
+    <h2>
+      A personal touch.
+      <br />
+      <em>A home you'll love.</em>
+    </h2>
+
+    <p>
+      Welcome to Saad Furniture House, founded by Shahid Khan.
+      Our goal is to help every customer find furniture that
+      brings comfort, functionality, and timeless style into
+      their home.
+    </p>
+
+    <p>
+      We believe choosing furniture should be a simple and
+      enjoyable experience. We're committed to helping you
+      discover pieces that suit your space, style, and budget.
+    </p>
+
+    <div className="owner-signature">
+      <strong>MOHAZZAM KHAN</strong>
+      <span>Owner, Saad Furniture House
+       
+      </span>
+    </div>
+
+    <a className="btn btn-dark" href="#shop">
+      Explore our collection
+      <ArrowRight size={17} />
+    </a>
+  </div>
+</section>
         <section className="newsletter">
           <span className="eyebrow">A LITTLE HOME INSPIRATION</span>
           <h2>Let's make your space feel like you.</h2>
           <p>
             Browse the collection or talk to us about what you're looking for.
+
           </p>
+          
           <a
             className="btn btn-light"
             href={
@@ -1211,8 +1240,8 @@ function App() {
                         Price (₹)
                         <input
                           
-                          min="0"
-                          type="string"
+                          
+                          type="text"
                           value={productForm.price}
                           onChange={(e) =>
                             setProductForm({
@@ -1225,8 +1254,8 @@ function App() {
                       <label>
                         Old price (₹)
                         <input
-                          min="0"
-                          type="string"
+                          
+                          type="text"
                           value={productForm.oldPrice}
                           onChange={(e) =>
                             setProductForm({
@@ -1453,6 +1482,14 @@ function App() {
           </div>
         </div>
       )}
+      <a
+  href="tel:+918127839225"
+  className="floating-call"
+  aria-label="Call Saad Furniture House"
+  title="Call us"
+>
+  <PhoneCall size={28} />
+</a>
     </div>
   );
 }
