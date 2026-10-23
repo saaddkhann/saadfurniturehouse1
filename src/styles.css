@@ -1605,3 +1605,13 @@ a {
 .floating-call:active {
   transform: scale(0.95);
 }
+.address{
+  margin-top: 10px;
+  font-size: 1.4rem;
+  margin-left: 10px;
+}
+.location-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+}

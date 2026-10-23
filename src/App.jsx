@@ -33,6 +33,7 @@ import QRCode from "qrcode";
 import { useEffect, useMemo, useState } from "react";
 import ProductGrid from "./components/ProductGrid";
 import { auth, db, firebaseConfigured } from "./firebase";
+import locationIcon from "./public/location.png";
 
 const seedProducts = [
   {
@@ -759,12 +760,22 @@ function App() {
       <span>Owner, Saad Furniture House
        
       </span>
+      
     </div>
-
+<div>
     <a className="btn btn-dark" href="#shop">
       Explore our collection
       <ArrowRight size={17} />
+      
     </a>
+     <a className="address" href="https://maps.app.goo.gl/pPRmy3eXGhFVCNey7?g_st=aw" target="_blank" rel="noopener noreferrer">
+     <img src={locationIcon}
+     alt="Location"
+      className="location-icon"
+     />
+                MADANPUR DEORIA
+              </a>
+     </div>
   </div>
 </section>
         <section className="newsletter">
